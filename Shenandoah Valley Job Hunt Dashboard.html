@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Shenandoah Valley Job Hunt Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Georgia, serif;
+            background-color: #A8D8D8;
+            color: #F5F5DC;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #7DBCC5;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #F5F5DC;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            color: #F5F5DC;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .sidebar {
+            width: 220px;
+            flex-shrink: 0;
+        }
+
+        .toc-container {
+            background-color: #7DBCC5;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .toc-container h2 {
+            font-size: 1.4em;
+            color: #F5F5DC;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #F5F5DC;
+            padding-bottom: 10px;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin: 8px 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 10px 12px;
+            background-color: #5FA6AF;
+            color: #F5F5DC;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            border: 2px solid transparent;
+        }
+
+        .toc-link:hover {
+            background-color: #4A8E97;
+            transform: translateX(5px);
+            border-color: #F5F5DC;
+        }
+
+        .toc-link.active {
+            background-color: #F5F5DC;
+            color: #5FA6AF;
+            border-color: #5FA6AF;
+        }
+
+        .content-area {
+            flex: 1;
+            min-height: 600px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page h1 {
+            font-size: 2em;
+            color: #5FA6AF;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #7DBCC5;
+            padding-bottom: 15px;
+        }
+
+        .page h2 {
+            font-size: 1.6em;
+            color: #7DBCC5;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .day-section {
+            background-color: #7DBCC5;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .day-title {
+            font-size: 1.4em;
+            color: #F5F5DC;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .day-subtitle {
+            font-size: 1.05em;
+            color: #F5F5DC;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .qa-pair {
+            background-color: #5FA6AF;
+            padding: 18px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border-left: 4px solid #F5F5DC;
+        }
+
+        .question {
+            font-weight: bold;
+            color: #F5F5DC;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .answer {
+            color: #F5F5DC;
+            font-size: 0.95em;
+            line-height: 1.6;
+            padding-left: 12px;
+        }
+
+        .reflection-box {
+            background-color: #5FA6AF;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border-left: 4px solid #F5F5DC;
+        }
+
+        .reflection-title {
+            font-weight: bold;
+            color: #F5F5DC;
+            margin-bottom: 10px;
+        }
+
+        .reflection-text {
+            color: #F5F5DC;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .next-steps {
+            background-color: #5FA6AF;
+            padding: 18px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border-left: 4px solid #F5F5DC;
+        }
+
+        .next-steps-title {
+            font-weight: bold;
+            color: #F5F5DC;
+            margin-bottom: 8px;
+        }
+
+        .next-steps-text {
+            color: #F5F5DC;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .video-card {
+            background-color: #7DBCC5;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            background-color: #5FA6AF;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-title {
+            font-size: 1.1em;
+            color: #F5F5DC;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .video-day {
+            font-size: 0.9em;
+            color: #F5F5DC;
+            opacity: 0.9;
+        }
+
+        .intro-text {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            color: #5FA6AF;
+            line-height: 1.7;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #A8D8D8;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #7DBCC5;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5FA6AF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Shenandoah Valley Job Hunt Project</h1>
+            <p>30-Day Job Search Regimen: Your guide to landing roles in Transportation, Logistics, Operations & Data Coordination</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Table of Contents / Navigation -->
+            <aside class="sidebar">
+                <nav class="toc-container">
+                    <h2>Navigation</h2>
+                    <ul class="toc-list">
+                        <li><a href="#" class="toc-link active" data-page="overview">📌 Overview</a></li>
+                        <li><a href="#" class="toc-link" data-page="videos">📹 Training Videos</a></li>
+                        <li><hr style="border: none; border-top: 1px solid rgba(245, 245, 220, 0.4); margin: 12px 0;"></li>
+                        <li><a href="#" class="toc-link" data-page="day1">Day 1: Resume & ATS</a></li>
+                        <li><a href="#" class="toc-link" data-page="day2">Day 2: Keywords</a></li>
+                        <li><a href="#" class="toc-link" data-page="day3">Day 3: LinkedIn</a></li>
+                        <li><a href="#" class="toc-link" data-page="day4">Day 4: SV Employers</a></li>
+                        <li><a href="#" class="toc-link" data-page="day5">Day 5: Networking</a></li>
+                        <li><a href="#" class="toc-link" data-page="day6">Day 6: Timing</a></li>
+                        <li><a href="#" class="toc-link" data-page="day7">Day 7: Skills Hiring</a></li>
+                        <li><a href="#" class="toc-link" data-page="day8">Day 8: Interviews</a></li>
+                        <li><a href="#" class="toc-link" data-page="day9">Day 9: Transportation</a></li>
+                        <li><a href="#" class="toc-link" data-page="day10">Day 10: Resume Format</a></li>
+                        <li><a href="#" class="toc-link" data-page="day11">Day 11: Quantify Impact</a></li>
+                        <li><a href="#" class="toc-link" data-page="day12">Day 12: LinkedIn Search</a></li>
+                        <li><a href="#" class="toc-link" data-page="day13">Day 13: Operations</a></li>
+                        <li><a href="#" class="toc-link" data-page="day14">Day 14: Cover Letters</a></li>
+                        <li><a href="#" class="toc-link" data-page="day15">Day 15: Data Coord</a></li>
+                        <li><a href="#" class="toc-link" data-page="day16">Day 16: Salary</a></li>
+                        <li><a href="#" class="toc-link" data-page="day17">Day 17: Networking</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="content-area">
+
+                <!-- Overview Page -->
+                <div id="overview" class="page active">
+                    <h1>Welcome to Your 30-Day Job Search Journey</h1>
+                    <p class="intro-text">
+                        This 30-day program is designed to help you improve your job search success and employment prospects in the Shenandoah Valley, Virginia, with a focus on <strong>transportation, management, operations, logistics, and data coordination roles</strong>.
+                    </p>
+                    <p class="intro-text">
+                        Each day features 5 comprehensive quiz questions with detailed answers covering job search strategies, industry knowledge, interview preparation, and local market insights specific to the Shenandoah Valley region.
+                    </p>
+                    <p class="intro-text">
+                        <strong>How to use this dashboard:</strong> Click any day in the left navigation to view that day's quiz questions and answers. Each section includes reflection prompts to help you apply the lessons immediately to your job search.
+                    </p>
+
+                    <div class="day-section">
+                        <div class="day-title">🎯 Your Learning Path</div>
+                        <p style="color: #F5F5DC; margin-bottom: 15px;">Week 1: Foundations (Days 1-7)</p>
+                        <ul style="color: #F5F5DC; margin-left: 20px; line-height: 2;">
+                            <li>Resume optimization, keyword strategy, LinkedIn profile setup</li>
+                            <li>Local employer research and strategic networking fundamentals</li>
+                            <li>Application timing and skills-based hiring trends</li>
+                        </ul>
+
+                        <p style="color: #F5F5DC; margin-bottom: 15px; margin-top: 20px;">Week 2: Deepening (Days 8-14)</p>
+                        <ul style="color: #F5F5DC; margin-left: 20px; line-height: 2;">
+                            <li>Interview prep, operations concepts, and quantifying your impact</li>
+                            <li>Advanced LinkedIn tactics and cover letter mastery</li>
+                            <li>Local transportation sector knowledge</li>
+                        </ul>
+
+                        <p style="color: #F5F5DC; margin-bottom: 15px; margin-top: 20px;">Week 3+: Specialization (Days 15-17+)</p>
+                        <ul style="color: #F5F5DC; margin-left: 20px; line-height: 2;">
+                            <li>Data coordination, salary negotiation, and advanced networking</li>
+                            <li>Ongoing skill refinement and real-world application</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Training Videos Page -->
+                <div id="videos" class="page">
+                    <h1>📹 Training Videos by Topic</h1>
+                    <p class="intro-text">
+                        Videos are organized alphabetically by the thread/topic they came from, making it easy to find content on the subjects you need most.
+                    </p>
+
+                    <h2>Application Timing and Volume Strategy</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: Timing Your Job Applications for Maximum Visibility')">
+                            <div class="video-title">▶ Timing Your Applications</div>
+                            <div class="video-day">From: Day 6 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Volume Strategy - Quality Over Quantity')">
+                            <div class="video-title">▶ Volume Strategy</div>
+                            <div class="video-day">From: Day 6 Content</div>
+                        </div>
+                    </div>
+
+                    <h2>Cover Letters</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: Crafting Effective Cover Letters in 2026')">
+                            <div class="video-title">▶ Cover Letter Basics</div>
+                            <div class="video-day">From: Day 14 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Personalization and Customization')">
+                            <div class="video-title">▶ Personalization Strategy</div>
+                            <div class="video-day">From: Day 14 Content</div>
+                        </div>
+                    </div>
+
+                    <h2>Data Coordination & Management</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: Excel Skills for Data Coordination')">
+                            <div class="video-title">▶ Excel Essentials</div>
+                            <div class="video-day">From: Day 15 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Data Integrity and Database Management')">
+                            <div class="video-title">▶ Data Integrity</div>
+                            <div class="video-day">From: Day 15 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Data Visualization Tools')">
+                            <div class="video-title">▶ Tableau & Power BI</div>
+                            <div class="video-day">From: Day 15 Content</div>
+                        </div>
+                    </div>
+
+                    <h2>Interview Preparation</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: The STAR Method for Interview Answers')">
+                            <div class="video-title">▶ STAR Method Mastery</div>
+                            <div class="video-day">From: Day 8 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Behavioral Interview Questions')">
+                            <div class="video-title">▶ Behavioral Questions</div>
+                            <div class="video-day">From: Day 8 Content</div>
+                        </div>
+                    </div>
+
+                    <h2>LinkedIn & Job Search Tactics</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: Advanced LinkedIn Job Search Strategies')">
+                            <div class="video-title">▶ LinkedIn Job Search</div>
+                            <div class="video-day">From: Day 12 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Easy Apply and Job Alerts')">
+                            <div class="video-title">▶ Easy Apply Strategy</div>
+                            <div class="video-day">From: Day 12 Content</div>
+                        </div>
+                    </div>
+
+                    <h2>Networking</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: Strategic Networking Techniques')">
+                            <div class="video-title">▶ Networking Basics</div>
+                            <div class="video-day">From: Day 5 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Maximizing Networking Events')">
+                            <div class="video-title">▶ Networking Events</div>
+                            <div class="video-day">From: Day 17 Content</div>
+                        </div>
+                    </div>
+
+                    <h2>Operations Management</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: Operations Management Core Concepts')">
+                            <div class="video-title">▶ Operations Fundamentals</div>
+                            <div class="video-day">From: Day 13 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Lean, Six Sigma, and KPIs')">
+                            <div class="video-title">▶ Lean & Six Sigma</div>
+                            <div class="video-day">From: Day 13 Content</div>
+                        </div>
+                    </div>
+
+                    <h2>Resume Optimization</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: Resume Formatting and ATS Systems')">
+                            <div class="video-title">▶ ATS Optimization</div>
+                            <div class="video-day">From: Day 1 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Advanced Resume Formatting')">
+                            <div class="video-title">▶ Advanced Formatting</div>
+                            <div class="video-day">From: Day 10 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Quantifying Your Impact with Metrics')">
+                            <div class="video-title">▶ Quantifying Impact</div>
+                            <div class="video-day">From: Day 11 Content</div>
+                        </div>
+                    </div>
+
+                    <h2>Salary & Benefits</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: Salary Research Strategies')">
+                            <div class="video-title">▶ Salary Research</div>
+                            <div class="video-day">From: Day 16 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Negotiation Tactics')">
+                            <div class="video-title">▶ Negotiation Skills</div>
+                            <div class="video-day">From: Day 16 Content</div>
+                        </div>
+                    </div>
+
+                    <h2>Skills & Industry Knowledge</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: Skills-Based Hiring Trends')">
+                            <div class="video-title">▶ Skills-Based Hiring</div>
+                            <div class="video-day">From: Day 7 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Shenandoah Valley Transportation Sector')">
+                            <div class="video-title">▶ Local Transportation</div>
+                            <div class="video-day">From: Day 9 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Researching Shenandoah Valley Employers')">
+                            <div class="video-title">▶ Local Employers</div>
+                            <div class="video-day">From: Day 4 Content</div>
+                        </div>
+                    </div>
+
+                    <h2>Strategic Keywords</h2>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="alert('Playing: Strategic Keyword Integration in Resumes')">
+                            <div class="video-title">▶ Keyword Strategy</div>
+                            <div class="video-day">From: Day 2 Content</div>
+                        </div>
+                        <div class="video-card" onclick="alert('Playing: Boolean Search for Targeting')">
+                            <div class="video-title">▶ Boolean Search</div>
+                            <div class="video-day">From: Day 3 Content</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DAY PAGES (Days 1-17) -->
+                <div id="day1" class="page">
+                    <h1>Day 1: Resume Optimization for ATS Systems</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Understanding the ATS Landscape</div>
+                        <div class="day-subtitle">Your resume's first reader is often a computer, not a human. Here's how to win that fight.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What percentage of resumes are filtered by Applicant Tracking Systems (ATS) before reaching human recruiters?</div>
+                            <div class="answer">A: Approximately 75% of resumes are filtered by ATS before reaching human recruiters. This makes ATS optimization critical for job seekers in 2026.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: Which resume format is most ATS-friendly for logistics and operations roles?</div>
+                            <div class="answer">A: Reverse-chronological format with clear section headers (Professional Summary, Work Experience, Skills, Education). Avoid columns, tables, graphics, and use standard fonts like Arial or Calibri.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: Name three major transportation/logistics companies operating in the Shenandoah Valley.</div>
+                            <div class="answer">A: Houff Transfer Inc. (Weyers Cave), Averitt Express (Fishersville), and Shenandoah Growers Inc. (Harrisonburg) are major logistics operators in the region.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: What is the recommended file format when submitting your resume online?</div>
+                            <div class="answer">A: .docx or .pdf format. .docx is often preferred for older ATS systems, but always check the job posting for specific requirements.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: Should you use the exact job title from the posting in your resume?</div>
+                            <div class="answer">A: Yes! Include the exact job title as it appears in the posting, placing it prominently in your resume headline or summary to improve ATS matching.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Review your current resume. Does it follow the reverse-chronological format? Are your keywords aligned with job descriptions you're targeting?</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 12): Day 2 focuses on Strategic Keyword Integration. Start collecting 3-5 job postings in your target role to extract keywords.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day2" class="page">
+                    <h1>Day 2: Strategic Keyword Integration</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">The Art of Speaking ATS Language</div>
+                        <div class="day-subtitle">Understanding how to use the right terminology ensures your application passes through automated filters and catches a recruiter's eye.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: How many keywords should you extract from a job description to optimize your resume?</div>
+                            <div class="answer">A: Aim for 10-15 keywords from each job posting. Focus on technical skills, software tools, and industry-specific terminology mentioned multiple times in the "Requirements" or "Responsibilities" sections.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: For a logistics coordinator role, should you write "CRM" or "Salesforce CRM"?</div>
+                            <div class="answer">A: Use both the specific tool name AND the category: "Salesforce CRM." This ensures you match whether the ATS searches for the specific platform name or the general software category.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: What is the "Open to Work" feature on LinkedIn and should you use it?</div>
+                            <div class="answer">A: It is a feature that signals to recruiters you're actively seeking opportunities. Yes, use it! It increases your visibility to recruiters searching for candidates in your specific field and location.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: How many times should you repeat important keywords in your resume?</div>
+                            <div class="answer">A: Ideally 2-3 times naturally across different sections (Summary, Skills, and Experience). Avoid "keyword stuffing," as recruiters can spot it and it may negatively impact your professional image.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: Name a key logistics software commonly used by Shenandoah Valley companies.</div>
+                            <div class="answer">A: Transportation Management Systems (TMS), Warehouse Management Systems (WMS), and SAP are standard. Organizations like Virginia Regional Transit also utilize specialized scheduling and routing software.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Look at a job posting you're interested in today. Can you identify the top 5 most repeated technical skills? Are they on your resume?</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 13): Day 3 focuses on LinkedIn Profile Optimization. Keep all emails from this series for reference.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day3" class="page">
+                    <h1>Day 3: LinkedIn Profile Optimization</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Your Digital First Impression</div>
+                        <div class="day-subtitle">In 2026, your LinkedIn profile is often your first impression. Optimizing it correctly ensures you appear in the right recruiter searches for roles in the Shenandoah Valley and beyond.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What are the three most important sections of your LinkedIn profile that recruiters search?</div>
+                            <div class="answer">A: The LinkedIn Headline, the "About" (Summary) section, and your Work Experience headings. These three areas carry the most weight in LinkedIn's search algorithm.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: How should you craft your LinkedIn headline if you're seeking an operations manager role?</div>
+                            <div class="answer">A: Be specific and keyword-rich. Instead of just "Operations Manager," try: "Operations Manager | Supply Chain Optimization | Logistics & Transportation Leadership." This tells recruiters exactly what you do and what you're looking for.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: What is Boolean search and why do recruiters use it on LinkedIn?</div>
+                            <div class="answer">A: Boolean search uses operators (AND, OR, NOT) to combine keywords. Recruiters use it to find candidates with specific skill combinations, such as "logistics AND data coordination AND Virginia."</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: On LinkedIn, how should you sort job search results?</div>
+                            <div class="answer">A: Sort by "Date Posted" (newest first), not "Most Relevant." This helps you apply early when applicant counts are lower.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: What is a realistic job search timeline in the current market?</div>
+                            <div class="answer">A: For many candidates, 3-6 months is common, depending on role level, industry, and geographic constraints. Consistent daily effort usually beats occasional bursts of activity.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Look at your current LinkedIn headline. If a recruiter searched for "Logistics Manager in Virginia," would your profile appear in the results?</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 14): Day 4 focuses on Researching Shenandoah Valley Employers. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day4" class="page">
+                    <h1>Day 4: Researching Shenandoah Valley Employers</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Know Your Local Landscape</div>
+                        <div class="day-subtitle">Understanding the key players in the Shenandoah Valley allows you to tailor your applications and target companies that align with your career goals in transportation, logistics, and management.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What are the top 5 employers in Shenandoah County?</div>
+                            <div class="answer">A: Major employers include the Shenandoah County government, Bowman Andros Products, Valley Health System, Shentel Management Company, and various local school districts.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: Where can you find information about a company's culture before applying?</div>
+                            <div class="answer">A: Utilize Glassdoor and Indeed company reviews, LinkedIn employee posts, the company's official social media, and the "About Us" or "Careers" pages on their corporate website.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: What questions should you research about a company before your interview?</div>
+                            <div class="answer">A: Research their mission and values, recent news or projects, current industry challenges, company size/growth trends, their main products/services, and their primary competitive advantages.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: Should you connect with recruiters before they contact you?</div>
+                            <div class="answer">A: Yes! Proactively search for recruiters at your target companies (like Houff Transfer or Valley Health) and send personalized connection requests. They are often very receptive when they are actively hiring.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: How can you identify the hiring manager for a position on LinkedIn?</div>
+                            <div class="answer">A: Use LinkedIn's "People" search filtered by the company name. Look for titles like "Hiring Manager," "Talent Acquisition," or managers within the specific department where the job is posted.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Pick one local company from today's list. Can you find a recent news article about them from the last 6 months?</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 15): Day 5 focuses on Strategic Networking Techniques. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day5" class="page">
+                    <h1>Day 5: Strategic Networking Techniques</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">The Hidden Job Market</div>
+                        <div class="day-subtitle">Networking is not about asking for a job; it's about building professional relationships that lead to opportunities. In industries like logistics and operations, who you know can be just as important as what you know.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What percentage of jobs are filled through internal referrals before being posted publicly?</div>
+                            <div class="answer">A: Studies suggest 30-50% of positions are filled through referrals and internal networks before they ever reach a public job board, making networking critical for high-demand roles.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: What is an "informational interview" and how can it help your job search?</div>
+                            <div class="answer">A: It is a brief, informal conversation with someone in your target role or company to learn about their experience. It builds relationships and often leads to job leads without the pressure of a formal interview.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: How should you approach alumni from your school who work at target companies?</div>
+                            <div class="answer">A: Send a personalized message mentioning your shared school, express genuine interest in their career path, and request a brief 15-minute call to ask specific questions about the company culture.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: What is the best way to follow up after meeting someone at a networking event?</div>
+                            <div class="answer">A: Send a personalized LinkedIn connection request or email within 24-48 hours. Reference a specific topic you discussed to show you were listening and suggest a concrete next step to stay in touch.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: Name a professional organization for transportation and logistics professionals.</div>
+                            <div class="answer">A: The Council of Supply Chain Management Professionals (CSCMP) and the American Society of Transportation and Logistics (ASTL) are excellent organizations for networking and industry resources.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Think of three people in your current network (friends, former colleagues, or classmates). Do any of them work in the transportation or logistics sectors?</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 16): Day 6 focuses on Application Timing and Strategy. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day6" class="page">
+                    <h1>Day 6: Application Timing and Volume Strategy</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Apply Smarter, Not Just More</div>
+                        <div class="day-subtitle">Timing, customization, and tracking are what separate effective job searches from exhausting ones.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: When is the best time to submit a job application for maximum visibility?</div>
+                            <div class="answer">A: Within 24–48 hours of the job being posted. Early applications often get reviewed first in ATS queues and are more likely to be seen while the role is top-of-mind for recruiters.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: What is the recommended number of job applications per day in 2026?</div>
+                            <div class="answer">A: 3–5 highly customized applications per day is typically more effective than 10+ generic ones. Modern hiring systems reward relevance and strong matching over volume.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: How should you organize your job search to stay efficient?</div>
+                            <div class="answer">A: Use daily time blocks (example: 2 hours applying, 1 hour networking) and track everything in a spreadsheet: job title, company, link, date applied, contact person, follow-up date, and notes.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: What is the ideal resume length for operations and logistics roles?</div>
+                            <div class="answer">A: One page for early-career professionals (0-5 years), two pages for mid- to senior-level (5+ years). Never exceed two pages without compelling reasons.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: Should you include references on your resume?</div>
+                            <div class="answer">A: No. "References available upon request" is outdated advice. Instead, prepare a separate reference list to provide only when specifically requested by the employer.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">What time of day can you consistently dedicate to job searching without interruptions? Block it on your calendar today.</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 17): Day 7 focuses on Skills-Based Hiring Trends. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day7" class="page">
+                    <h1>Day 7: Skills-Based Hiring Trends</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">The Shift in How Employers Evaluate Candidates</div>
+                        <div class="day-subtitle">You have completed your first full week! Employers are increasingly looking at what you can actually DO rather than just where you went to school or your previous job titles.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What percentage of U.S. employers use skills-based hiring practices in 2026?</div>
+                            <div class="answer">A: Nearly 70% of U.S. employers now use skills-based hiring, evaluating candidates based on demonstrated abilities and assessments rather than strictly relying on degrees.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: For a data coordination role, what technical skills should you highlight?</div>
+                            <div class="answer">A: Essential skills include Excel/spreadsheet proficiency (VLOOKUPS, PivotTables), database management (SQL), data visualization (Tableau, Power BI), and familiarity with ERP systems.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: How can you demonstrate logistics skills if you lack direct experience?</div>
+                            <div class="answer">A: Highlight transferable skills: inventory management, vendor relations, process optimization, and any experience with coordination, scheduling, or supply chain exposure.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: What soft skills are most valued in operations management roles?</div>
+                            <div class="answer">A: Leadership, cross-functional team collaboration, conflict resolution, adaptability, and high-level problem-solving are among the most sought-after soft skills.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: Should you include certifications on your resume even if not required?</div>
+                            <div class="answer">A: Absolutely! Certifications like CDL, OSHA, Six Sigma, PMP, or APICS credentials validate your skills and demonstrate a commitment to professional growth.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">List three technical skills you use daily. Are they clearly listed in the "Skills" section of your resume and LinkedIn?</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 18): Day 8 focuses on Interview Preparation Fundamentals. You've finished Week 1! Great job staying consistent.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day8" class="page">
+                    <h1>Day 8: Interview Preparation Fundamentals</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Building Interview Readiness</div>
+                        <div class="day-subtitle">Especially for transportation, logistics, operations, and management roles where employers want clear examples of decision-making, leadership, and problem-solving.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What is the STAR method for answering interview questions?</div>
+                            <div class="answer">A: STAR = Situation, Task, Action, Result. It's a structure for behavioral answers: describe the context, your responsibility, the actions you took, and the measurable outcome.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: How many STAR stories should you prepare before an interview?</div>
+                            <div class="answer">A: Prepare 3–5 strong stories that demonstrate different skills (leadership, conflict resolution, process improvement, safety, customer service). Each story can be adapted to multiple questions.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: What is a behavioral interview question?</div>
+                            <div class="answer">A: A question that asks about past experiences, typically starting with: "Tell me about a time when..." or "Describe a situation where..." Employers use these to predict how you'll perform in future situations.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: How early should you arrive for an in-person interview?</div>
+                            <div class="answer">A: Aim to arrive 10-15 minutes early. Arriving much earlier can inconvenience the interviewer; arriving late can damage your first impression.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: Should you prepare questions to ask the interviewer?</div>
+                            <div class="answer">A: Yes. Prepare 4-6 thoughtful questions about the role's challenges, team structure, success metrics, training, and growth opportunities. This shows seriousness and helps you evaluate fit.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Write one STAR story about improving a process (saving time, reducing errors, improving scheduling, cutting waste, etc.). Keep it to 6-8 sentences.</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 19): Day 9 focuses on Shenandoah Valley Transportation Sector. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day9" class="page">
+                    <h1>Day 9: Shenandoah Valley Transportation Sector</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Local Industry Awareness</div>
+                        <div class="day-subtitle">Knowing the transportation landscape in the Shenandoah Valley helps you speak the language of employers, tailor your resume, and ask smarter questions in interviews.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What public transit options serve the Shenandoah Valley?</div>
+                            <div class="answer">A: Options include Virginia Regional Transit, Winchester Transit, ShenGo (Strasburg to New Market route), OmniRide Western Express, and commuter services to the Washington, D.C. area.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: What types of cargo do Shenandoah Valley trucking companies typically haul?</div>
+                            <div class="answer">A: Common freight includes agricultural products, fresh produce, building materials, refrigerated foods, general freight, lumber, paper products, and manufactured goods depending on the carrier.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: What is the Virginia Breeze Valley Flyer?</div>
+                            <div class="answer">A: A public intercity bus service that connects parts of the Shenandoah Valley (and surrounding regions) with Washington, D.C., offering scheduled northbound and southbound trips.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: Name key routes connecting the Shenandoah Valley to major markets.</div>
+                            <div class="answer">A: I-81 is the primary north-south corridor. I-66 provides access to the D.C. region. Other key routes include US-33 and US-340, supporting regional freight movement.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: What rail services operate in or near the Shenandoah Valley?</div>
+                            <div class="answer">A: Passenger rail connections include Amtrak, VRE (Virginia Railway Express), and MARC (Maryland Area Regional Commuter). Freight and transload services may also be available through regional logistics providers.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Choose one target employer. Which route(s) (I-81, I-66, US-33, US-340) are most important to their operations—and why?</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 20): Day 10 focuses on Advanced Resume Formatting. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day10" class="page">
+                    <h1>Day 10: Advanced Resume Formatting</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Mastering the Details</div>
+                        <div class="day-subtitle">You've learned the basics; now it's time to master the details that separate good resumes from great ones—especially important when passing through ATS systems and impressing hiring managers in competitive logistics and operations roles.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: Should you include a photo on your resume for U.S. job applications?</div>
+                            <div class="answer">A: No. Photos on resumes can introduce unconscious bias and many ATS systems cannot process them. Focus on your content and qualifications, not appearance.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: What section should appear first after your contact information?</div>
+                            <div class="answer">A: A Professional Summary or Career Objective (3–4 lines). This should highlight your unique value proposition and career goals, tailored specifically to the target role.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: How far back should your work history extend on your resume?</div>
+                            <div class="answer">A: Generally, 10–15 years for most professionals. Older experience can be summarized briefly or omitted unless it's highly relevant to the target position.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: What is the ideal resume length for operations and logistics roles?</div>
+                            <div class="answer">A: One page for early-career professionals (0-5 years), two pages for mid- to senior-level (5+ years). Never exceed two pages without compelling reasons.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: Should you include references on your resume?</div>
+                            <div class="answer">A: No. "References available upon request" is outdated advice. Instead, prepare a separate reference list to provide only when specifically requested by the employer.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Count the lines in your Professional Summary. Is it 3-4 lines? Does it address the specific role you're targeting?</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 21): Day 11 focuses on Quantifying Your Impact. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day11" class="page">
+                    <h1>Day 11: Quantifying Your Impact</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">The Power of Numbers</div>
+                        <div class="day-subtitle">One of the most powerful upgrades you can make to your resume and interview answers: quantifying your impact. In transportation, logistics, operations, and data coordination roles, numbers build credibility fast.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: Why should you include numbers and metrics in your resume?</div>
+                            <div class="answer">A: Numbers give concrete proof of your results and make achievements memorable. They also help your resume match employer needs by clearly showing scale, efficiency, and outcomes.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: Transform this weak bullet: "Managed warehouse operations." What metrics should you add?</div>
+                            <div class="answer">A: Add facility size, shipments, team size, accuracy, safety, and results. Example: "Managed warehouse operations for a 50,000 sq ft facility, leading a 15-person team and supporting 2,000+ daily shipments with 99.7% inventory accuracy."</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: What types of metrics are relevant for logistics roles?</div>
+                            <div class="answer">A: Cost savings ($ or %), on-time delivery rates, shipment volumes, team size managed, inventory accuracy, order cycle time, process efficiency gains, and safety/incident reductions.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: How can you quantify achievements if you don't have exact numbers?</div>
+                            <div class="answer">A: Use estimates responsibly: "approximately," "over," "more than," or ranges. You can also quantify timeframes, volumes, team sizes, and before/after comparisons to show impact.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: Improve this: "Responsible for data entry." How would you rewrite it?</div>
+                            <div class="answer">A: Example: "Maintained 10,000+ customer records with 99.5% accuracy, processing 200+ daily transactions and reducing data errors by 35% through quality control checks."</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Pick one job from your work history. Write 2 resume bullets that include at least one number each (time, volume, cost, accuracy, safety, or speed).</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 22): Day 12 focuses on Advanced LinkedIn Job Search. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day12" class="page">
+                    <h1>Day 12: Advanced LinkedIn Job Search</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Advanced Tactics for Your Job Hunt</div>
+                        <div class="day-subtitle">For transportation, logistics, operations, and data coordination roles in Virginia, LinkedIn can help you apply early, find inside connections, and reach recruiters directly.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What is the "Easy Apply" feature on LinkedIn and should you use it?</div>
+                            <div class="answer">A: "Easy Apply" lets you apply quickly using your LinkedIn profile. Use it selectively—it's useful for speed, but customized applications (and applying on the company site when possible) often perform better for competitive roles.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: How do you set up job alerts on LinkedIn?</div>
+                            <div class="answer">A: Run a targeted search (job title + location), set filters (date posted, experience, remote/hybrid), then turn on "Job Alert." Alerts help you apply quickly when new roles appear.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: What does "under 10 applicants" mean and why is it valuable?</div>
+                            <div class="answer">A: It indicates the job is very new or has low applicant volume. Applying early to low-applicant jobs improves your odds of being reviewed before the recruiter has a full pipeline.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: How can you identify which of your connections work at target companies?</div>
+                            <div class="answer">A: Go to the company's LinkedIn page → click employee count (e.g., "See all employees") → filter by connection level to find 1st- and 2nd-degree connections you can message for insight or referrals.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: What is InMail and when should you use it?</div>
+                            <div class="answer">A: InMail is LinkedIn's messaging feature for contacting people you're not connected with (usually requires Premium). Use it to reach hiring managers or recruiters with a short, personalized note that highlights fit and asks a specific question.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Search for one job title you want (e.g., Logistics Coordinator, Operations Supervisor, Transportation Manager) in the Shenandoah Valley. Set a Job Alert today.</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 23): Day 13 focuses on Operations Management Core Concepts. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day13" class="page">
+                    <h1>Day 13: Operations Management Core Concepts</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Building Your Operations Expertise</div>
+                        <div class="day-subtitle">Strengthening your operations-management fundamentals—useful for interviews and for tailoring your resume to roles in transportation, logistics, warehousing, and production across Virginia.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What are the key responsibilities of an operations manager?</div>
+                            <div class="answer">A: Planning and coordinating operations, managing budgets, ensuring quality standards, optimizing processes, supervising staff, implementing safety protocols, and meeting production/delivery targets.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: What is Lean management and why is it important in operations?</div>
+                            <div class="answer">A: Lean is a methodology focused on minimizing waste while maximizing value. It emphasizes continuous improvement (Kaizen), 5S workplace organization, and eliminating non-value-adding activities.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: What is Six Sigma?</div>
+                            <div class="answer">A: Six Sigma is a data-driven quality methodology aimed at reducing defects and variation. It commonly uses the DMAIC framework: Define, Measure, Analyze, Improve, Control.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: Name three KPIs (Key Performance Indicators) for operations management.</div>
+                            <div class="answer">A: On-time delivery rate, throughput/production efficiency, and defect/quality rate are core KPIs. Others include labor productivity, inventory turnover, and safety incidents.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: What software systems should operations managers be familiar with?</div>
+                            <div class="answer">A: ERP systems (SAP, Oracle), WMS (Warehouse Management Systems), project management tools (MS Project, Asana), and analytics/reporting tools (Excel, Power BI) are commonly used.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Pick one process you've worked with (shipping, receiving, scheduling, inventory, reporting). What KPI would best measure success—and what would "good" performance look like?</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 24): Day 14 focuses on Crafting Effective Cover Letters. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day14" class="page">
+                    <h1>Day 14: Crafting Effective Cover Letters</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Beyond the Resume</div>
+                        <div class="day-subtitle">You've now completed 2 full weeks! We focus on cover letters—still relevant in 2026, especially when you need to explain why you're switching roles, relocating to the Shenandoah Valley, or pivoting within logistics and operations.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: Are cover letters still important in 2026?</div>
+                            <div class="answer">A: Yes, especially when requested or when you need to explain career transitions, employment gaps, or relocation. They demonstrate genuine interest and strong communication skills that resumes cannot always convey.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: What should the first paragraph of your cover letter accomplish?</div>
+                            <div class="answer">A: Hook the reader by stating the specific position, where you found it, and one compelling reason why you're an excellent fit. Create immediate interest in why you're worth reading more about.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: How long should a cover letter be?</div>
+                            <div class="answer">A: Three to four paragraphs, maximum one page (250-400 words). Hiring managers spend 30 seconds or less reviewing cover letters, so be concise and impactful.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: Should you address the cover letter to a specific person?</div>
+                            <div class="answer">A: Yes, whenever possible. Research the hiring manager's name on LinkedIn or the company website. "Dear Hiring Manager" is acceptable only if you cannot find a name after a thorough search.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: What is the biggest cover letter mistake?</div>
+                            <div class="answer">A: Generic, template-sounding letters that could apply to any job. Each letter must be customized to the specific role and company, showing you've researched them and understand their unique needs.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Take one job posting from the Shenandoah Valley. Draft the opening paragraph (2-3 sentences) of a cover letter for that role.</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 26): Day 15 focuses on Data Coordination and Management. You've now completed 2 full weeks! Excellent consistency.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day15" class="page">
+                    <h1>Day 15: Data Coordination and Management</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Data Skills in Modern Operations</div>
+                        <div class="day-subtitle">You're now halfway through the program! This quiz focuses on data coordination skills—essential for logistics, operations, and supply chain roles where accurate information drives better decisions.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What does a data coordinator do in logistics and operations?</div>
+                            <div class="answer">A: Manages data collection, entry, and accuracy; creates reports and dashboards; maintains databases; ensures data compliance; and coordinates information flow between departments.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: What Excel skills are essential for data coordination roles?</div>
+                            <div class="answer">A: VLOOKUP/XLOOKUP, PivotTables, conditional formatting, data validation, formulas (IF, SUMIF, COUNTIF), charts/graphs, and basic macros for automation.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: What is data integrity and why does it matter?</div>
+                            <div class="answer">A: Data integrity is the accuracy, consistency, and reliability of data throughout its lifecycle. Poor data integrity leads to bad decisions, operational errors, compliance issues, and lost revenue.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: Name three data visualization tools used in business.</div>
+                            <div class="answer">A: Tableau, Microsoft Power BI, and Google Data Studio are widely used for creating interactive dashboards and visual reports from complex datasets.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: What is SQL and why is it valuable for data coordinators?</div>
+                            <div class="answer">A: SQL (Structured Query Language) is used to interact with databases. It allows you to extract, filter, analyze, and manipulate large datasets efficiently—a highly sought-after skill.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Which of these Excel skills do you use regularly: VLOOKUP, PivotTables, or conditional formatting? Pick one you want to improve and find a free tutorial this week.</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 26): Day 16 focuses on Salary Research and Negotiation. You've reached the halfway point! Keep up the momentum.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day16" class="page">
+                    <h1>Day 16: Salary Research and Negotiation</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Know Your Worth</div>
+                        <div class="day-subtitle">Preparing you for one of the most important conversations in your job search: salary negotiation. Knowing your worth and how to discuss compensation professionally can significantly impact your career earnings.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: When should you discuss salary expectations in the interview process?</div>
+                            <div class="answer">A: Ideally, let the employer bring it up first, preferably after they've expressed strong interest. If pressed early, provide a researched range rather than a specific number.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: Where can you research salary ranges for logistics and operations roles in Virginia?</div>
+                            <div class="answer">A: Use Glassdoor, Indeed Salary, Salary.com, PayScale, and Bureau of Labor Statistics. Factor in location differences—Shenandoah Valley wages may differ from Northern Virginia.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: What is the typical salary range for an Operations Manager in Virginia?</div>
+                            <div class="answer">A: Operations Managers in Virginia earn approximately $55,000–$95,000 depending on industry, company size, experience level, and specific location within the state.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: Besides salary, what benefits should you negotiate?</div>
+                            <div class="answer">A: Health insurance, retirement matching, PTO/vacation days, flexible work arrangements, professional development budget, sign-on bonus, relocation assistance, and performance bonuses.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: How should you respond if asked about your current/previous salary?</div>
+                            <div class="answer">A: Many states prohibit this question. Redirect: "I'd prefer to focus on the value I can bring to this role. Based on my research, the range for this position is $X-$Y."</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Research one target job title on Glassdoor or Indeed. What's the salary range in the Shenandoah Valley or broader Virginia area?</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 28): Day 17 focuses on Maximizing Networking Events. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="day17" class="page">
+                    <h1>Day 17: Maximizing Networking Events</h1>
+                    
+                    <div class="day-section">
+                        <div class="day-title">Making the Most of In-Person Connections</div>
+                        <div class="day-subtitle">Helping you get the most from in-person networking events—whether at local Chambers of Commerce, industry conferences, or professional meetups in the Shenandoah Valley.</div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q1: What should you bring to an in-person networking event?</div>
+                            <div class="answer">A: Business cards (25–30), a professional notebook/portfolio, breath mints, and a positive attitude. Have your 30-second elevator pitch memorized and ready.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q2: What is an elevator pitch and how long should it be?</div>
+                            <div class="answer">A: A concise introduction (30–60 seconds) covering who you are, what you do, your unique value, and what you're seeking. Practice until it sounds natural, not rehearsed.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q3: How do you start a conversation with a stranger at a networking event?</div>
+                            <div class="answer">A: Approach with a smile, introduce yourself, and ask open-ended questions like "What brings you here?" or "What do you do?" Listen actively and find common ground.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q4: What should you NOT do at a networking event?</div>
+                            <div class="answer">A: Don't monopolize conversations, immediately ask for jobs, hand out resumes indiscriminately, stay on your phone, only talk to people you know, or drink excessively.</div>
+                        </div>
+
+                        <div class="qa-pair">
+                            <div class="question">Q5: Where can you find professional networking events in the Shenandoah Valley?</div>
+                            <div class="answer">A: Local Chambers of Commerce, professional associations (transportation/logistics groups), LinkedIn Events, Meetup.com, JMU career events, and industry conferences.</div>
+                        </div>
+
+                        <div class="reflection-box">
+                            <div class="reflection-title">📝 Reflection Prompt</div>
+                            <div class="reflection-text">Draft your 30-second elevator pitch. Include: your name, your expertise area (logistics, operations, data coordination), and what you're looking for.</div>
+                        </div>
+
+                        <div class="next-steps">
+                            <div class="next-steps-title">🚀 Next Steps</div>
+                            <div class="next-steps-text">Tomorrow (January 28): Day 18 focuses on Remote and Hybrid Work Strategies. Keep this email for your records.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Page navigation
+        function navigate(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+
+            const links = document.querySelectorAll('.toc-link');
+            links.forEach(link => link.classList.remove('active'));
+            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // TOC link click handlers
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                navigate(pageId);
+            });
+        });
+    </script>
+</body>
+</html>
